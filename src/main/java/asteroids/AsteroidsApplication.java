@@ -29,7 +29,9 @@ public class AsteroidsApplication extends Application {
         pane.setPrefSize(600, 400);
 
         Ship ship = new Ship(300, 200);
+        Asteroid aste = new Asteroid(100, 100);
         pane.getChildren().add(ship.getCharacter());
+        pane.getChildren().add(aste.getCharacter());
 
         Scene scene = new Scene(pane);
 
