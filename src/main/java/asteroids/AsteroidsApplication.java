@@ -28,12 +28,8 @@ public class AsteroidsApplication extends Application {
         Pane pane = new Pane();
         pane.setPrefSize(600, 400);
 
-        Polygon ship = new Polygon(-5, -5, 10, 0, -5, 5);
-        ship.setTranslateX(300);
-        ship.setTranslateY(200);
-        ship.setRotate(30);
-
-        pane.getChildren().add(ship);
+        Ship ship = new Ship(300, 200);
+        pane.getChildren().add(ship.getCharacter());
 
         Scene scene = new Scene(pane);
 
@@ -47,20 +43,21 @@ public class AsteroidsApplication extends Application {
             pressedKeys.put(event.getCode(), Boolean.FALSE);
         });
 
-        Point2D movement = new Point2D(1, 0);
-
         new AnimationTimer() {
 
             @Override
             public void handle(long now) {
                 if (pressedKeys.getOrDefault(KeyCode.LEFT, false)) {
-                    ship.setRotate(ship.getRotate() - 5);
+                    ship.turnLeft();
                 }
 
                 if (pressedKeys.getOrDefault(KeyCode.RIGHT, false)) {
-                    ship.setRotate(ship.getRotate() + 5);
+                    ship.turnRight();
                 }
-                ship.setTranslateX(ship.getTranslateX() + movement.getX());
+                if (pressedKeys.getOrDefault(KeyCode.UP, false)) {
+                    ship.accelerate();
+                }
+                ship.move();
 
             }
         }.start();
