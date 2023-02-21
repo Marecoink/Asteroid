@@ -8,12 +8,13 @@ public abstract class Character {
 
     private Polygon character;
     private Point2D movement;
+    private boolean isAlive;
 
     public Character(Polygon polygon, int x, int y) {
         this.character = polygon;
         this.character.setTranslateX(x);
         this.character.setTranslateY(y);
-
+        this.isAlive = true;
         this.movement = new Point2D(0, 0);
     }
 
@@ -25,13 +26,46 @@ public abstract class Character {
         this.character.setRotate(this.character.getRotate() - 5);
     }
 
+    public Point2D getMovement() {
+        return movement;
+    }
+
+    public void setMovement(Point2D movement) {
+        this.movement = movement;
+    }
+
     public void turnRight() {
         this.character.setRotate(this.character.getRotate() + 5);
+    }
+
+    public void setAlive(boolean isAlive) {
+        this.isAlive = isAlive;
+    }
+    
+    public boolean isAlive() {
+        return this.isAlive;
     }
 
     public void move() {
         this.character.setTranslateX(this.character.getTranslateX() + this.movement.getX());
         this.character.setTranslateY(this.character.getTranslateY() + this.movement.getY());
+
+        // jumps from one side of the screen to the other
+        if (this.character.getTranslateX() < 0) {
+            this.character.setTranslateX(this.character.getTranslateX() + AsteroidsApplication.WIDTH);
+        }
+
+        if (this.character.getTranslateX() > AsteroidsApplication.WIDTH) {
+            this.character.setTranslateX(this.character.getTranslateX() % AsteroidsApplication.WIDTH);
+        }
+
+        if (this.character.getTranslateY() < 0) {
+            this.character.setTranslateY(this.character.getTranslateY() + AsteroidsApplication.HEIGHT);
+        }
+
+        if (this.character.getTranslateY() > AsteroidsApplication.HEIGHT) {
+            this.character.setTranslateY(this.character.getTranslateY() % AsteroidsApplication.HEIGHT);
+        }
     }
 
     public void accelerate() {
